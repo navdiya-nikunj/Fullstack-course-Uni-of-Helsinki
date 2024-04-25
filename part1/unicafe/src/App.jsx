@@ -1,18 +1,15 @@
 import { useState } from "react";
 
-const Button = ({text,handleClick}) => {
-  return (
-    <button onClick={handleClick}>
-      {text}
-    </button>
-  );
+const Button = ({ text, handleClick }) => {
+  return <button onClick={handleClick}>{text}</button>;
 };
 
-const StaticLine = ({text,value}) => {
+const StaticLine = ({ text, value }) => {
   return (
-    <p>
-      {text}:- {value}
-    </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 const Statistics = ({ good, neutral, bad }) => {
@@ -27,13 +24,16 @@ const Statistics = ({ good, neutral, bad }) => {
       <>
         <h1>Statistics</h1>
 
-        <StaticLine text={"Good"} value={good} />
-        <StaticLine text={"Neutral"} value={neutral} />
-        <StaticLine text={"Bad"} value={bad} />
-        <hr />
-        <StaticLine text={"All"} value={all} />
-        <StaticLine text={"Average"} value={average} />
-        <StaticLine text={"Positive"} value={positive} />
+        <table>
+          <tbody>
+            <StaticLine text={"Good"} value={good} />
+            <StaticLine text={"Neutral"} value={neutral} />
+            <StaticLine text={"Bad"} value={bad} />
+            <StaticLine text={"All"} value={all} />
+            <StaticLine text={"Average"} value={average} />
+            <StaticLine text={"Positive"} value={positive} />
+          </tbody>
+        </table>
       </>
     );
   }
@@ -48,9 +48,24 @@ const App = () => {
     <div>
       <h1>Give feedback</h1>
       <hr />
-      <Button text={"Good"} handleClick={() => {setGood(good + 1)}} />
-      <Button text={"Neutral"} handleClick={() => {setNeutral(neutral + 1)}} />
-      <Button text={"Bad"} handleClick={() => {setBad(bad + 1)}} />
+      <Button
+        text={"Good"}
+        handleClick={() => {
+          setGood(good + 1);
+        }}
+      />
+      <Button
+        text={"Neutral"}
+        handleClick={() => {
+          setNeutral(neutral + 1);
+        }}
+      />
+      <Button
+        text={"Bad"}
+        handleClick={() => {
+          setBad(bad + 1);
+        }}
+      />
       <hr />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
