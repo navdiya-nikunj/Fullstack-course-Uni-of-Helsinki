@@ -29,13 +29,12 @@ const Content = ({parts}) => {
 
 const Footer = (props) => {
   console.log(props);
-  let  total = 0;
-  props.parts.forEach(element => {
-    total += element.exercises;
-  });
+  const total = props.parts.reduce((sum, current) => {
+    return sum + current.exercises;
+  }, 0);
   return (
     <>
-      <p>Number of exercises {total}</p>
+      <p>Total exercises {total}</p>
     </>
   )
 }
