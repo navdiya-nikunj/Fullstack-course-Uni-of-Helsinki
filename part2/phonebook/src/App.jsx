@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import { getPersons, addPerson, deletePerson } from "./Services/Person";
+import {
+  getPersons,
+  addPerson,
+  deletePerson,
+  updatePerson,
+} from "./Services/Person";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -21,11 +26,32 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const personExist = persons.find(
+      (person) => person.name === newcontact.name
+    );
     if (!newcontact.name || !newcontact.number) {
       alert("Please fill in all fields");
       return;
-    } else if (persons.find((person) => person.name === newcontact.name)) {
-      alert(`${newcontact.name} is already added to phonebook`);
+    } else if (personExist) {
+      const cnf = window.confirm(
+        `${personExist.name} is already added to phonebook. Replace the old number with new number?`
+      );
+      if (cnf) {
+        updatePerson(personExist.id, {
+          ...personExist,
+          number: newcontact.number,
+        }).then((updatedPerson) => {
+          setPersons(
+            persons.map((per) => {
+              if (per.id === personExist.id) {
+                return updatedPerson;
+              }
+              return per;
+            })
+          );
+        });
+      }
+      setNewContact({ name: "", number: "" });
       return;
     }
     addPerson(newcontact).then((addedPerson) =>

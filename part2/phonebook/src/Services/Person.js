@@ -14,7 +14,7 @@ const getPersons = () => {
 }
 
 const updatePerson = (id, newcontact) => {
-    return axios.put(`${baseULR}/${id}`).then((response) => {
+    return axios.put(`${baseULR}/${id}`, newcontact).then((response) => {
         return response.data;
     })
 }
