@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
-import axios from "axios";
+import { getPersons, addPerson } from "./Services/Person";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -10,10 +10,7 @@ const App = () => {
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      console.log(response);
-      setPersons(response.data);
-    });
+    getPersons().then((personList) => setPersons(personList));
   }, []);
 
   const handleInput = (event) => {
@@ -31,10 +28,10 @@ const App = () => {
       alert(`${newcontact.name} is already added to phonebook`);
       return;
     }
-    axios.post("http://localhost:3001/persons", newcontact).then((response) => {
-      console.log(response);
-      setPersons(persons.concat(response.data));
-    });
+    addPerson(newcontact).then((addedPerson) =>
+      setPersons(persons.concat(addedPerson))
+    );
+
     setNewContact({ name: "", number: "" });
   };
 
