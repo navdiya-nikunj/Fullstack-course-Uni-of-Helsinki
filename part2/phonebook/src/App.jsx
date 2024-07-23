@@ -82,14 +82,25 @@ const App = () => {
       `Are you sure you want to delete ${person.name}`
     );
     if (res) {
-      deletePerson(person.id).then((res) => {
-        const newList = persons.filter((pers) => pers.id != person.id);
-        setPersons(newList);
-        setNotification({ msg: `${person.name} is deleted`, type: "error" });
-        setTimeout(() => {
-          setNotification({ msg: "", type: "" });
-        }, 2000);
-      });
+      deletePerson(person.id)
+        .then((res) => {
+          const newList = persons.filter((pers) => pers.id != person.id);
+          setPersons(newList);
+          setNotification({ msg: `${person.name} is deleted`, type: "error" });
+          setTimeout(() => {
+            setNotification({ msg: "", type: "" });
+          }, 2000);
+        })
+        .catch((e) => {
+          console.log(e.request);
+          setNotification({
+            msg: `${person.name} is already deleted`,
+            type: "error",
+          });
+          setTimeout(() => {
+            setNotification({ msg: "", type: "" });
+          }, 2000);
+        });
     }
   };
 
