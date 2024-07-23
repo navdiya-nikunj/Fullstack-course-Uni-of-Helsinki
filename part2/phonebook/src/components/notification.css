@@ -1,0 +1,27 @@
+.notificationContainer{
+    border-radius: 5px;
+    padding: 0;
+    border-width: 3px;
+    border-style: solid;
+    padding-left: 5px;
+    background-color: gray;
+}
+
+#error{
+    border-color: #EE4B2B;
+    color: red;
+}
+
+#success{
+    border-color: green;
+    color: green;
+}
+
+#update{
+    border-color: yellow;
+    color: yellow;
+}
+
+.notificationMessage{
+    font-size: larger;
+}

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
+import Notification from "./components/Notification";
 import {
   getPersons,
   addPerson,
@@ -13,6 +14,10 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [newcontact, setNewContact] = useState({});
   const [search, setSearch] = useState("");
+  const [notification, setNotification] = useState({
+    msg: "",
+    type: "",
+  });
 
   useEffect(() => {
     getPersons().then((personList) => setPersons(personList));
@@ -49,14 +54,25 @@ const App = () => {
               return per;
             })
           );
+          setNotification({
+            msg: `${updatedPerson.name} is updates`,
+            type: "update",
+          });
+          setTimeout(() => {
+            setNotification({ msg: "", type: "" });
+          }, 2000);
         });
       }
       setNewContact({ name: "", number: "" });
       return;
     }
-    addPerson(newcontact).then((addedPerson) =>
-      setPersons(persons.concat(addedPerson))
-    );
+    addPerson(newcontact).then((addedPerson) => {
+      setPersons(persons.concat(addedPerson));
+      setNotification({ msg: `${addedPerson.name} is added`, type: "success" });
+      setTimeout(() => {
+        setNotification({ msg: "", type: "" });
+      }, 2000);
+    });
 
     setNewContact({ name: "", number: "" });
   };
@@ -69,6 +85,10 @@ const App = () => {
       deletePerson(person.id).then((res) => {
         const newList = persons.filter((pers) => pers.id != person.id);
         setPersons(newList);
+        setNotification({ msg: `${person.name} is deleted`, type: "error" });
+        setTimeout(() => {
+          setNotification({ msg: "", type: "" });
+        }, 2000);
       });
     }
   };
@@ -80,6 +100,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification msg={notification.msg} type={notification.type} />
       <Filter search={search} handleSearch={handleSearch} />
       <h2>Add Phone number</h2>
       <PersonForm
