@@ -24,7 +24,6 @@ function App() {
 
   useEffect(() => {
     getAllCountries().then((data: []) => {
-      console.log(data);
       setCountries(data);
     });
   }, []);
