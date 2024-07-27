@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseULR = "http://localhost:3001/persons";
+const baseULR = "http://localhost:3001/api/persons";
 
 const addPerson = (newcontact) => {
     return axios.post(baseULR, newcontact).then((response) => {
